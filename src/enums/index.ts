@@ -28,7 +28,7 @@ export { LoadingSpinnerType } from './LoadingSpinnerType';
 export { MarkerType } from './MarkerType';
 export { MenuAlignment } from './MenuAlignment';
 export { NotificationType } from './NotificationType';
-export { ParachuteLandingType, ParachuteState } from './Parachute';
+export { ParachuteLandingType, ParachuteState, ParachuteTint } from './Parachute';
 export { RadioStation } from './RadioStation';
 export { RagdollType } from './RagdollType';
 export { Relationship } from './Relationship';

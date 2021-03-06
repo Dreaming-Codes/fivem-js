@@ -250,7 +250,7 @@ export abstract class Game {
    * @returns True or False.
    */
   public static isControlPressed(inputMode: InputMode, control: Control): boolean {
-    return !!IsControlPressed(inputMode, Number(control));
+    return !!IsControlPressed(Number(inputMode), Number(control));
   }
 
   /**
@@ -261,7 +261,7 @@ export abstract class Game {
    * @returns True or False.
    */
   public static isDisabledControlPressed(inputMode: InputMode, control: Control): boolean {
-    return !!IsDisabledControlPressed(inputMode, Number(control));
+    return !!IsDisabledControlPressed(Number(inputMode), Number(control));
   }
 
   /**
@@ -272,7 +272,7 @@ export abstract class Game {
    * @returns True or False.
    */
   public static isControlJustPressed(inputMode: InputMode, control: Control): boolean {
-    return !!IsControlJustPressed(inputMode, Number(control));
+    return !!IsControlJustPressed(Number(inputMode), Number(control));
   }
 
   /**
@@ -283,7 +283,7 @@ export abstract class Game {
    * @returns True or False.
    */
   public static isDisabledControlJustPressed(inputMode: InputMode, control: Control): boolean {
-    return !!IsDisabledControlJustPressed(inputMode, Number(control));
+    return !!IsDisabledControlJustPressed(Number(inputMode), Number(control));
   }
 
   /**
@@ -294,7 +294,7 @@ export abstract class Game {
    * @returns True or False.
    */
   public static isControlReleased(inputMode: InputMode, control: Control): boolean {
-    return !!IsControlReleased(inputMode, Number(control));
+    return !!IsControlReleased(Number(inputMode), Number(control));
   }
 
   /**
@@ -305,7 +305,7 @@ export abstract class Game {
    * @returns True or False.
    */
   public static isDisabledControlReleased(inputMode: InputMode, control: Control): boolean {
-    return !!IsDisabledControlReleased(inputMode, Number(control));
+    return !!IsDisabledControlReleased(Number(inputMode), Number(control));
   }
 
   /**
@@ -316,7 +316,7 @@ export abstract class Game {
    * @returns True or False.
    */
   public static isControlJustReleased(inputMode: InputMode, control: Control): boolean {
-    return !!IsControlJustReleased(inputMode, Number(control));
+    return !!IsControlJustReleased(Number(inputMode), Number(control));
   }
 
   /**
@@ -327,7 +327,7 @@ export abstract class Game {
    * @returns True or False.
    */
   public static isDisabledControlJustReleased(inputMode: InputMode, control: Control): boolean {
-    return !!IsDisabledControlJustReleased(inputMode, Number(control));
+    return !!IsDisabledControlJustReleased(Number(inputMode), Number(control));
   }
 
   /**
@@ -338,7 +338,7 @@ export abstract class Game {
    * @returns True or False.
    */
   public static isControlEnabled(inputMode: InputMode, control: Control): boolean {
-    return !!IsControlEnabled(inputMode, Number(control));
+    return !!IsControlEnabled(Number(inputMode), Number(control));
   }
 
   /**
@@ -348,7 +348,7 @@ export abstract class Game {
    * @param control Control
    */
   public static enableControlThisFrame(inputMode: InputMode, control: Control): void {
-    EnableControlAction(inputMode, Number(control), true);
+    EnableControlAction(Number(inputMode), Number(control), true);
   }
 
   /**
@@ -358,7 +358,7 @@ export abstract class Game {
    * @param control Control
    */
   public static disableControlThisFrame(inputMode: InputMode, control: Control): void {
-    DisableControlAction(inputMode, Number(control), true);
+    DisableControlAction(Number(inputMode), Number(control), true);
   }
 
   /**
@@ -367,7 +367,7 @@ export abstract class Game {
    * @param inputMode InputMode
    */
   public static disableAllControlsThisFrame(inputMode: InputMode): void {
-    DisableAllControlActions(inputMode);
+    DisableAllControlActions(Number(inputMode));
   }
 
   /**
@@ -376,7 +376,51 @@ export abstract class Game {
    * @param inputMode InputMode
    */
   public static enableAllControlsThisFrame(inputMode: InputMode): void {
-    EnableAllControlActions(inputMode);
+    EnableAllControlActions(Number(inputMode));
+  }
+
+  /**
+   * Gets an analog value of a control input between -1 and 1.
+   *
+   * @param inputMode InputMode
+   * @param control Control
+   * @returns The normalised control value.
+   */
+  public static getControlNormal(inputMode: InputMode, control: Control): number {
+    return GetControlNormal(Number(inputMode), Number(control));
+  }
+
+  /**
+   * Gets an analog value of a disabled control input between -1 and 1.
+   *
+   * @param inputMode InputMode
+   * @param control Control
+   * @returns The normalised control value.
+   */
+  public static getDisabledControlNormal(inputMode: InputMode, control: Control): number {
+    return GetDisabledControlNormal(Number(inputMode), Number(control));
+  }
+
+  /**
+   * Override a control by giving it a user defined value this frame.
+   *
+   * @param inputMode InputMode
+   * @param control Control
+   * @param value The value to set the control to.
+   */
+  public static setControlNormal(inputMode: InputMode, control: Control, value: number): void {
+    SetControlNormal(Number(inputMode), Number(control), value);
+  }
+
+  /**
+   * Gets an value of a control input.
+   *
+   * @param inputMode InputMode
+   * @param control Control
+   * @returns The control value.
+   */
+  public static getControlValue(inputMode: InputMode, control: Control): number {
+    return GetControlValue(Number(inputMode), Number(control));
   }
 
   /**

@@ -3,7 +3,7 @@ import { Entity, PedBone } from './models';
 import { Vector3 } from './utils';
 
 export class Camera {
-  private readonly _shakeNames: string[] = [
+  public static readonly shakeNames = [
     'HAND_SHAKE',
     'SMALL_EXPLOSION_SHAKE',
     'MEDIUM_EXPLOSION_SHAKE',
@@ -148,7 +148,7 @@ export class Camera {
   }
 
   public shake(shakeType: CameraShake, amplitude: number): void {
-    ShakeCam(this._handle, this._shakeNames[Number(shakeType)], amplitude);
+    ShakeCam(this._handle, Camera.shakeNames[Number(shakeType)], amplitude);
   }
 
   public stopShaking(): void {

@@ -1,8 +1,7 @@
 import { Entity, Model, Prop } from './';
 import { Blip } from './Blip';
 import { Camera } from './Camera';
-import { CloudHat, IntersectOptions, MarkerType, Weather } from './enums';
-import { PickupType } from './enums/PickupType';
+import { CloudHat, IntersectOptions, MarkerType, PickupType, Weather } from './enums';
 import { VehicleHash } from './hashes';
 import { Ped, Vehicle } from './models';
 import { Pickup } from './Pickup';
@@ -478,7 +477,7 @@ export abstract class World {
    * @param rotation If set, create a rotating pickup with this rotation.
    * @returns Pickup object.
    */
-  public static async CreatePickup(
+  public static async createPickup(
     type: PickupType,
     position: Vector3,
     model: Model,
@@ -525,7 +524,7 @@ export abstract class World {
    * @param value The value tied to the pickup.
    * @returns The pickup in form of a Prop.
    */
-  public static async CreateAmbientPickup(
+  public static async createAmbientPickup(
     type: PickupType,
     position: Vector3,
     model: Model,

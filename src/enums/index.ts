@@ -29,6 +29,7 @@ export { MarkerType } from './MarkerType';
 export { MenuAlignment } from './MenuAlignment';
 export { NotificationType } from './NotificationType';
 export { ParachuteLandingType, ParachuteState, ParachuteTint } from './Parachute';
+export { PickupType } from './PickupType';
 export { RadioStation } from './RadioStation';
 export { RagdollType } from './RagdollType';
 export { Relationship } from './Relationship';

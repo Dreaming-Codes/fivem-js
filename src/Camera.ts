@@ -3,7 +3,7 @@ import { Entity, PedBone } from './models';
 import { Vector3 } from './utils';
 
 export class Camera {
-  private readonly shakeNames: string[] = [
+  private readonly _shakeNames: string[] = [
     'HAND_SHAKE',
     'SMALL_EXPLOSION_SHAKE',
     'MEDIUM_EXPLOSION_SHAKE',
@@ -17,36 +17,40 @@ export class Camera {
     'DEATH_FAIL_IN_EFFECT_SHAKE',
   ];
 
-  private handle: number;
+  private _handle: number;
 
   constructor(handle: number) {
-    this.handle = handle;
+    this._handle = handle;
+  }
+
+  public get Handle(): number {
+    return this._handle;
   }
 
   public get IsActive(): boolean {
-    return !!IsCamActive(this.handle);
+    return !!IsCamActive(this._handle);
   }
 
   public set IsActive(active: boolean) {
-    SetCamActive(this.handle, active);
+    SetCamActive(this._handle, active);
   }
 
   public get Position(): Vector3 {
-    const pos = GetCamCoord(this.handle);
+    const pos = GetCamCoord(this._handle);
     return new Vector3(pos[0], pos[1], pos[2]);
   }
 
   public set Position(position: Vector3) {
-    SetCamCoord(this.handle, position.x, position.y, position.z);
+    SetCamCoord(this._handle, position.x, position.y, position.z);
   }
 
   public get Rotation(): Vector3 {
-    const rot = GetCamRot(this.handle, 2);
+    const rot = GetCamRot(this._handle, 2);
     return new Vector3(rot[0], rot[1], rot[2]);
   }
 
   public set Rotation(rotation: Vector3) {
-    SetCamRot(this.handle, rotation.x, rotation.y, rotation.z, 2);
+    SetCamRot(this._handle, rotation.x, rotation.y, rotation.z, 2);
   }
 
   // public get Matrix() : Matrix {}
@@ -100,71 +104,71 @@ export class Camera {
   // }
 
   public get FieldOfView(): number {
-    return GetCamFov(this.handle);
+    return GetCamFov(this._handle);
   }
 
   public set FieldOfView(fieldOfView: number) {
-    SetCamFov(this.handle, fieldOfView);
+    SetCamFov(this._handle, fieldOfView);
   }
 
   public get NearClip(): number {
-    return GetCamNearClip(this.handle);
+    return GetCamNearClip(this._handle);
   }
 
   public set NearClip(nearClip: number) {
-    SetCamNearClip(this.handle, nearClip);
+    SetCamNearClip(this._handle, nearClip);
   }
 
   public get FarClip(): number {
-    return GetCamFarClip(this.handle);
+    return GetCamFarClip(this._handle);
   }
 
   public set FarClip(farClip: number) {
-    SetCamFarClip(this.handle, farClip);
+    SetCamFarClip(this._handle, farClip);
   }
 
   public set NearDepthOfField(nearDepthOfField: number) {
-    SetCamNearDof(this.handle, nearDepthOfField);
+    SetCamNearDof(this._handle, nearDepthOfField);
   }
 
   public get FarDepthOfField(): number {
-    return GetCamFarDof(this.handle);
+    return GetCamFarDof(this._handle);
   }
 
   public set FarDepthOfField(farDepthOfField: number) {
-    SetCamFarDof(this.handle, farDepthOfField);
+    SetCamFarDof(this._handle, farDepthOfField);
   }
 
   public set DepthOfFieldStrength(strength: number) {
-    SetCamDofStrength(this.handle, strength);
+    SetCamDofStrength(this._handle, strength);
   }
 
   public set MotionBlurStrength(strength: number) {
-    SetCamMotionBlurStrength(this.handle, strength);
+    SetCamMotionBlurStrength(this._handle, strength);
   }
 
   public shake(shakeType: CameraShake, amplitude: number): void {
-    ShakeCam(this.handle, this.shakeNames[Number(shakeType)], amplitude);
+    ShakeCam(this._handle, this._shakeNames[Number(shakeType)], amplitude);
   }
 
   public stopShaking(): void {
-    StopCamShaking(this.handle, true);
+    StopCamShaking(this._handle, true);
   }
 
   public get IsShaking(): boolean {
-    return !!IsCamShaking(this.handle);
+    return !!IsCamShaking(this._handle);
   }
 
   public set ShakeAmplitude(amplitude: number) {
-    SetCamShakeAmplitude(this.handle, amplitude);
+    SetCamShakeAmplitude(this._handle, amplitude);
   }
 
   public pointAt(target: Entity | PedBone | Vector3, offset: Vector3 = new Vector3(0, 0, 0)): void {
     if (target instanceof Entity) {
-      PointCamAtEntity(this.handle, target.Handle, offset.x, offset.y, offset.z, true);
+      PointCamAtEntity(this._handle, target.Handle, offset.x, offset.y, offset.z, true);
     } else if (target instanceof PedBone) {
       PointCamAtPedBone(
-        this.handle,
+        this._handle,
         target.Owner.Handle,
         target.Index,
         offset.x,
@@ -173,12 +177,12 @@ export class Camera {
         true,
       );
     } else {
-      PointCamAtCoord(this.handle, target.x, target.y, target.z);
+      PointCamAtCoord(this._handle, target.x, target.y, target.z);
     }
   }
 
   public stopPointing(): void {
-    StopCamPointing(this.handle);
+    StopCamPointing(this._handle);
   }
 
   public interpTo(
@@ -188,8 +192,8 @@ export class Camera {
     easeRotation: boolean,
   ): void {
     SetCamActiveWithInterp(
-      to.handle,
-      this.handle,
+      to._handle,
+      this._handle,
       duration,
       Number(easePosition),
       Number(easeRotation),
@@ -197,15 +201,17 @@ export class Camera {
   }
 
   public get IsInterpolating(): boolean {
-    return !!IsCamInterpolating(this.handle);
+    return !!IsCamInterpolating(this._handle);
   }
 
-  public attachTo(object: Entity | PedBone, offset: Vector3): void {
+  public attachTo(pedBone: PedBone, offset: Vector3): void;
+  public attachTo(entity: Entity, offset: Vector3, isRelative?: boolean): void;
+  public attachTo(object: Entity | PedBone, offset: Vector3, isRelative = true): void {
     if (object instanceof Entity) {
-      AttachCamToEntity(this.handle, object.Handle, offset.x, offset.y, offset.z, true);
+      AttachCamToEntity(this._handle, object.Handle, offset.x, offset.y, offset.z, isRelative);
     } else if (object instanceof PedBone) {
       AttachCamToPedBone(
-        this.handle,
+        this._handle,
         object.Owner.Handle,
         object.Index,
         offset.x,
@@ -217,14 +223,14 @@ export class Camera {
   }
 
   public detach(): void {
-    DetachCam(this.handle);
+    DetachCam(this._handle);
   }
 
   public delete(): void {
-    DestroyCam(this.handle, false);
+    DestroyCam(this._handle, false);
   }
 
   public exists(): boolean {
-    return !!DoesCamExist(this.handle);
+    return !!DoesCamExist(this._handle);
   }
 }

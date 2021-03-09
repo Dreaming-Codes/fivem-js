@@ -193,6 +193,22 @@ export class Entity {
     }
   }
 
+  /**
+   * Gets a value indicating whether this entity is concealed.
+   *
+   * @returns true if this entity is concealed; otherwise, false.
+   */
+   public get IsConcealed(): boolean {
+    return !!NetworkIsEntityConcealed(this.handle);
+  }
+
+  /**
+   * Sets a value indicating whether this entity is concealed.
+   */
+  public set IsConcealed(value: boolean) {
+    NetworkConcealEntity(this.handle, value);
+  }
+
   public get IsOnFire(): boolean {
     return !!IsEntityOnFire(this.handle);
   }

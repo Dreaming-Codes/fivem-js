@@ -52,6 +52,7 @@ export class UIMenuListItem extends UIMenuItem {
       throw new Error("Items can't be null");
     }
     this._items = value;
+    this._textWidth = undefined;
   }
 
   public get SelectedItem(): ListItem {

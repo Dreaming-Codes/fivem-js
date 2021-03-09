@@ -94,7 +94,6 @@ export abstract class Game {
    */
   public static set PlayerVersusPlayer(value: boolean) {
     NetworkSetFriendlyFireOption(value);
-    SetCanAttackFriendly(this.Player.Handle, value, value);
   }
 
   /**

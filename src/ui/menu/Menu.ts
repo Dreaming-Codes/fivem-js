@@ -414,6 +414,7 @@ export class Menu {
   }
 
   public clear(): void {
+    this.children.clear();
     this.items = [];
     this._recalculateUpAndDown();
     this._recalculateDescriptionPosition();

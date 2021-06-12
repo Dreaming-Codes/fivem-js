@@ -281,7 +281,7 @@ export class Vehicle extends Entity {
   }
 
   public get AreLightsOn(): boolean {
-    return !!GetVehicleLightsState(this.handle)[0];
+    return !!GetVehicleLightsState(this.handle)[1];
   }
 
   public set AreLightsOn(value: boolean) {
@@ -289,7 +289,7 @@ export class Vehicle extends Entity {
   }
 
   public get AreHighBeamsOn(): boolean {
-    return !!GetVehicleLightsState(this.handle)[1];
+    return !!GetVehicleLightsState(this.handle)[2];
   }
 
   public set AreHighBeamsOn(value: boolean) {

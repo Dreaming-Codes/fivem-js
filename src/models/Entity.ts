@@ -381,7 +381,7 @@ export class Entity {
     return new Vector3(o[0], o[1], o[2]);
   }
 
-  public attachTo(entity: Entity, position: Vector3, rotation: Vector3): void {
+  public attachTo(entity: Entity, position: Vector3, rotation: Vector3, collisions = false): void {
     AttachEntityToEntity(
       this.handle,
       entity.Handle,
@@ -394,14 +394,14 @@ export class Entity {
       rotation.z,
       false,
       false,
-      false,
+      collisions,
       false,
       2,
       true,
     );
   }
 
-  public attachToBone(entityBone: EntityBone, position: Vector3, rotation: Vector3): void {
+  public attachToBone(entityBone: EntityBone, position: Vector3, rotation: Vector3, collisions = false): void {
     AttachEntityToEntity(
       this.handle,
       entityBone.Owner.Handle,
@@ -414,7 +414,7 @@ export class Entity {
       rotation.z,
       false,
       false,
-      false,
+      collisions,
       false,
       2,
       true,

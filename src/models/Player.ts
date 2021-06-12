@@ -118,10 +118,7 @@ export class Player {
    * Gets the reserve parachute tint for this player.
    */
   public get ReserveParachuteTint(): ParachuteTint {
-    return (GetPlayerReserveParachuteTintIndex(
-      this.handle,
-      undefined,
-    ) as unknown) as ParachuteTint;
+    return (GetPlayerReserveParachuteTintIndex(this.handle, undefined) as unknown) as ParachuteTint;
   }
 
   /**
@@ -239,7 +236,7 @@ export class Player {
    *
    * @returns true if this player is concealed; otherwise, false.
    */
-   public get IsConcealed(): boolean {
+  public get IsConcealed(): boolean {
     return !!NetworkIsPlayerConcealed(this.handle);
   }
 

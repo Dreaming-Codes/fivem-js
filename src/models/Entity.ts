@@ -198,7 +198,7 @@ export class Entity {
    *
    * @returns true if this entity is concealed; otherwise, false.
    */
-   public get IsConcealed(): boolean {
+  public get IsConcealed(): boolean {
     return !!NetworkIsEntityConcealed(this.handle);
   }
 
@@ -401,7 +401,12 @@ export class Entity {
     );
   }
 
-  public attachToBone(entityBone: EntityBone, position: Vector3, rotation: Vector3, collisions = false): void {
+  public attachToBone(
+    entityBone: EntityBone,
+    position: Vector3,
+    rotation: Vector3,
+    collisions = false,
+  ): void {
     AttachEntityToEntity(
       this.handle,
       entityBone.Owner.Handle,

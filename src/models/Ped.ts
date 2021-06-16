@@ -168,6 +168,16 @@ export class Ped extends Entity {
     return veh.exists() ? veh : null;
   }
 
+  public get VehicleDriving(): Vehicle {
+    const veh = this.CurrentVehicle;
+    return veh && veh.Driver.Handle === this.handle ? veh : null;
+  }
+
+  public get VehicleSittingIn(): Vehicle {
+    const veh = this.CurrentVehicle;
+    return veh && veh.Driver.Handle !== this.handle ? veh : null;
+  }
+
   public get IsJumpingOutOfVehicle(): boolean {
     return !!IsPedJumpingOutOfVehicle(this.handle);
   }

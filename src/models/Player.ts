@@ -83,7 +83,12 @@ export class Player {
    * Sets the wanted center position for this player.
    */
   public set WantedCenterPosition(value: Vector3) {
-    (SetPlayerWantedCentrePosition as any)(this.handle, value.x, value.y, value.z);
+    ((SetPlayerWantedCentrePosition as unknown) as (
+      player: number,
+      x: number,
+      y: number,
+      z: number,
+    ) => void)(this.handle, value.x, value.y, value.z);
   }
 
   /**

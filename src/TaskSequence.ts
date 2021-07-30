@@ -16,7 +16,7 @@ export class TaskSequence {
   }
 
   private create(): void {
-    this.handle = (OpenSequenceTask as any)(0);
+    this.handle = (OpenSequenceTask(0) as unknown) as number;
   }
 
   public dispose(): void {

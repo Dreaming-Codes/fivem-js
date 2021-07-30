@@ -615,9 +615,9 @@ export class Ped extends Entity {
   }
 
   public getLastWeaponImpactPosition(): Vector3 {
-    const position = GetPedLastWeaponImpactCoord(this.handle);
+    const [x, y, z] = GetPedLastWeaponImpactCoord(this.handle)[1];
 
-    return new Vector3(position[0], position[1][0], position[1][1]); // Does this work?
+    return new Vector3(x, y, z);
   }
 
   public get CanRagdoll(): boolean {
@@ -665,8 +665,8 @@ export class Ped extends Entity {
     SetPedResetFlag(this.handle, flagId, true);
   }
 
-  public clone(heading: number): Ped {
-    return new Ped(ClonePed(this.handle, heading, false, false));
+  public clone(isNetwork = true): Ped {
+    return new Ped(ClonePed(this.handle, isNetwork, false, false));
   }
 
   public exists(ped: Ped = null): boolean {

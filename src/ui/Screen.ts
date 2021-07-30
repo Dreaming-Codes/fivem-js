@@ -104,11 +104,9 @@ export abstract class Screen {
   }
 
   public static worldToScreen(position: Vector3, scaleWidth = false): PointF {
-    const coords = GetScreenCoordFromWorldCoord(position.x, position.y, position.z);
-    return new PointF(
-      coords[0] * (scaleWidth ? this.ScaledWidth : this.Width),
-      coords[1] * this.Height,
-      coords[2],
-    );
+    const [success, x, y] = GetScreenCoordFromWorldCoord(position.x, position.y, position.z);
+    return success
+      ? new PointF(x * (scaleWidth ? this.ScaledWidth : this.Width), y * this.Height, 0)
+      : PointF.empty();
   }
 }

@@ -7,6 +7,7 @@ import { Ped, Vehicle } from './models';
 import { Pickup } from './Pickup';
 import { RaycastResult } from './Raycast';
 import { Color, Maths, Vector3 } from './utils';
+import { WeatherTypeHash } from './hashes/WeatherTypeHash';
 
 /**
  * Class with common world manipulations.
@@ -75,12 +76,25 @@ export abstract class World {
   }
 
   /**
-   * Disables all emissive textures, street/building/vehicle lights. "EMP" effect.
+   * Does not affect weapons, particles, fire/explosions, flashlights or the sun.
+   * When set to true, all emissive textures (including ped components that have light effects), street lights, building lights, vehicle lights, etc will all be turned off.
+   * Used in Humane Labs Heist for EMP.
    *
-   * @param value On or off.
+   * @param value True turns off all artificial light sources in the map: buildings, street lights, car lights, etc. False turns them back on.
    */
-  public static set Blackout(value: boolean) {
-    SetBlackout(value);
+  public static set ArtificialLightsState(value: boolean) {
+    SetArtificialLightsState(value);
+  }
+
+  /**
+   * Sets whether artificial lights state affects vehicle lights.
+   * ```
+   * NativeDB Introduced: v2060
+   * ```
+   * @param value Affects or not.
+   */
+  public static set ArtificialLightsStateAffectsVehicles(value: boolean) {
+    SetArtificialLightsStateAffectsVehicles(value);
   }
 
   /**
@@ -137,40 +151,7 @@ export abstract class World {
    * @returns The current type of weather.
    */
   public static get Weather(): Weather {
-    switch (GetPrevWeatherTypeHashName()) {
-      case -1750463879:
-        return Weather.ExtraSunny;
-      case 916995460:
-        return Weather.Clear;
-      case -1530260698:
-        return Weather.Neutral;
-      case 282916021:
-        return Weather.Smog;
-      case -1368164796:
-        return Weather.Foggy;
-      case 821931868:
-        return Weather.Clouds;
-      case -1148613331:
-        return Weather.Overcast;
-      case 1840358669:
-        return Weather.Clearing;
-      case 1420204096:
-        return Weather.Raining;
-      case -1233681761:
-        return Weather.ThunderStorm;
-      case 669657108:
-        return Weather.Blizzard;
-      case -273223690:
-        return Weather.Snowing;
-      case 603685163:
-        return Weather.Snowlight;
-      case -1429616491:
-        return Weather.Christmas;
-      case -921030142:
-        return Weather.Halloween;
-      default:
-        return Weather.Unknown;
-    }
+    return this.getWeatherTypeFromHash(GetPrevWeatherTypeHashName());
   }
 
   /**
@@ -181,10 +162,7 @@ export abstract class World {
   public static set Weather(value: Weather) {
     if (value !== Weather.Unknown) {
       const weather = this.weatherDict[value];
-      SetWeatherTypeOverTime(weather, 1);
-      setTimeout(() => {
-        SetWeatherTypeNow(weather);
-      }, 100);
+      SetWeatherTypeNow(weather);
     }
   }
 
@@ -194,40 +172,7 @@ export abstract class World {
    * @returns The Weather type
    */
   public static get NextWeather(): Weather {
-    switch (GetNextWeatherTypeHashName()) {
-      case -1750463879:
-        return Weather.ExtraSunny;
-      case 916995460:
-        return Weather.Clear;
-      case -1530260698:
-        return Weather.Neutral;
-      case 282916021:
-        return Weather.Smog;
-      case -1368164796:
-        return Weather.Foggy;
-      case 821931868:
-        return Weather.Clouds;
-      case -1148613331:
-        return Weather.Overcast;
-      case 1840358669:
-        return Weather.Clearing;
-      case 1420204096:
-        return Weather.Raining;
-      case -1233681761:
-        return Weather.ThunderStorm;
-      case 669657108:
-        return Weather.Blizzard;
-      case -273223690:
-        return Weather.Snowing;
-      case 603685163:
-        return Weather.Snowlight;
-      case -1429616491:
-        return Weather.Christmas;
-      case -921030142:
-        return Weather.Halloween;
-      default:
-        return Weather.Unknown;
-    }
+    return this.getWeatherTypeFromHash(GetNextWeatherTypeHashName());
   }
 
   /**
@@ -253,6 +198,49 @@ export abstract class World {
    */
   public static set WeatherTransition(transition: [string | Weather, string | Weather, number]) {
     SetWeatherTypeTransition(transition[0], transition[1], transition[2]);
+  }
+
+  /**
+   * Get weather type from hash.
+   *
+   * @param hash Weather hash to get the type from.
+   * @returns Weather type.
+   */
+  public static getWeatherTypeFromHash(hash: number): Weather {
+    switch (hash) {
+      case WeatherTypeHash.ExtraSunny:
+        return Weather.ExtraSunny;
+      case WeatherTypeHash.Clear:
+        return Weather.Clear;
+      case WeatherTypeHash.Neutral:
+        return Weather.Neutral;
+      case WeatherTypeHash.Smog:
+        return Weather.Smog;
+      case WeatherTypeHash.Foggy:
+        return Weather.Foggy;
+      case WeatherTypeHash.Clouds:
+        return Weather.Clouds;
+      case WeatherTypeHash.Overcast:
+        return Weather.Overcast;
+      case WeatherTypeHash.Clearing:
+        return Weather.Clearing;
+      case WeatherTypeHash.Raining:
+        return Weather.Raining;
+      case WeatherTypeHash.ThunderStorm:
+        return Weather.ThunderStorm;
+      case WeatherTypeHash.Blizzard:
+        return Weather.Blizzard;
+      case WeatherTypeHash.Snowing:
+        return Weather.Snowing;
+      case WeatherTypeHash.Snowlight:
+        return Weather.Snowlight;
+      case WeatherTypeHash.Christmas:
+        return Weather.Christmas;
+      case WeatherTypeHash.Halloween:
+        return Weather.Halloween;
+      default:
+        return Weather.Unknown;
+    }
   }
 
   /**
@@ -1018,5 +1006,6 @@ export abstract class World {
     'BLIZZARD',
     'SNOWLIGHT',
     'XMAS',
+    'HALLOWEEN',
   ];
 }

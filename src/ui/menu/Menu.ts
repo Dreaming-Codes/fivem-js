@@ -7,7 +7,7 @@ import {
   Screen,
   Sprite,
   Text,
-  UIMenuSeparatorItem,
+  UIMenuSeparatorItem
 } from '../';
 import { Audio, CursorSprite, Game, GameplayCamera, InputMode, Wait } from '../../';
 import { Alignment, Control, Font, MenuAlignment } from '../../enums';
@@ -440,6 +440,10 @@ export class Menu {
 
   public goLeft(): void {
     const item = this.CurrentItem;
+    if (!item.enabled) {
+      this._playSoundAndReleaseId(this.Settings.audio.error, this.Settings.audio.library);
+      return;
+    }
     if (item instanceof UIMenuListItem) {
       if (!item.Items.length) {
         return;
@@ -461,6 +465,10 @@ export class Menu {
 
   public goRight(): void {
     const item = this.CurrentItem;
+    if (!item.enabled) {
+      this._playSoundAndReleaseId(this.Settings.audio.error, this.Settings.audio.library);
+      return;
+    }
     if (item instanceof UIMenuListItem) {
       if (item.Items.length === 0) {
         return;

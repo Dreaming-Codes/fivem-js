@@ -44,37 +44,37 @@ export class Menu {
 
   public readonly panelActivated = new LiteEvent();
 
-  private _counterPretext = '';
-  private _counterOverride: string;
-  private _alignment = MenuAlignment.Left;
-  private _offset: Point;
-  private _navigationDelay = 140;
-  private _lastUpDownNavigation = 0;
-  private _lastLeftRightNavigation = 0;
-  private _activeItem = 1000;
-  private _widthOffset = 0;
-  private _drawOffset = new Point();
-  private _justOpened = true;
-  private _mousePressed = false;
-  private _minItem = 0;
-  private _maxItem = 9;
-  private _maxItemsOnScreen = this._maxItem;
-  private _controls = new MenuControls();
-  private _settings = new MenuSettings();
+  protected _counterPretext = '';
+  protected _counterOverride: string;
+  protected _alignment = MenuAlignment.Left;
+  protected _offset: Point;
+  protected _navigationDelay = 140;
+  protected _lastUpDownNavigation = 0;
+  protected _lastLeftRightNavigation = 0;
+  protected _activeItem = 1000;
+  protected _widthOffset = 0;
+  protected _drawOffset = new Point();
+  protected _justOpened = true;
+  protected _mousePressed = false;
+  protected _minItem = 0;
+  protected _maxItem = 9;
+  protected _maxItemsOnScreen = this._maxItem;
+  protected _controls = new MenuControls();
+  protected _settings = new MenuSettings();
 
-  private readonly _title: Text;
-  private readonly _subtitle: Text;
-  private readonly _mainMenu: Container;
-  private readonly _logo: Sprite;
-  private readonly _upAndDownSprite: Sprite;
-  private readonly _subtitleResRectangle: Rectangle;
-  private readonly _extraRectangleUp: Rectangle;
-  private readonly _extraRectangleDown: Rectangle;
-  private readonly _descriptionBar: Rectangle;
-  private readonly _descriptionRectangle: Sprite;
-  private readonly _descriptionText: Text;
-  private readonly _counterText: Text;
-  private readonly _background: Sprite;
+  protected readonly _title: Text;
+  protected readonly _subtitle: Text;
+  protected readonly _mainMenu: Container;
+  protected readonly _logo: Sprite;
+  protected readonly _upAndDownSprite: Sprite;
+  protected readonly _subtitleResRectangle: Rectangle;
+  protected readonly _extraRectangleUp: Rectangle;
+  protected readonly _extraRectangleDown: Rectangle;
+  protected readonly _descriptionBar: Rectangle;
+  protected readonly _descriptionRectangle: Sprite;
+  protected readonly _descriptionText: Text;
+  protected readonly _counterText: Text;
+  protected readonly _background: Sprite;
 
   constructor(
     title: string,
@@ -609,7 +609,7 @@ export class Menu {
     this.menuClose.emit();
   }
 
-  private _processMouse(): void {
+  protected _processMouse(): void {
     if (
       !this.visible ||
       this._justOpened ||
@@ -763,7 +763,7 @@ export class Menu {
     }
   }
 
-  private _processControl(): void {
+  protected _processControl(): void {
     if (!this.visible) {
       return;
     }
@@ -825,30 +825,30 @@ export class Menu {
     }
   }
 
-  private _isThereAnyItemExcludingSeparators(): boolean {
+  protected _isThereAnyItemExcludingSeparators(): boolean {
     return !!this.items.filter(item => !(item instanceof UIMenuSeparatorItem)).length;
   }
 
-  private _playSoundAndReleaseId(sound: string, set?: string): void {
+  protected _playSoundAndReleaseId(sound: string, set?: string): void {
     const soundId = Audio.playSoundFrontEnd(sound, set);
     Audio.releaseSound(soundId);
   }
 
-  private _disEnableControls(): void {
+  protected _disEnableControls(): void {
     Game.disableAllControlsThisFrame(InputMode.GamePad);
     for (const control of this._settings.enabledControls[Game.CurrentInputMode]) {
       Game.enableControlThisFrame(0, control);
     }
   }
 
-  private _recalculateUpAndDown(): void {
+  protected _recalculateUpAndDown(): void {
     const y = this._offset.Y;
     this._extraRectangleUp.pos.Y = 144 + 38 * (this._maxItemsOnScreen + 1) + y;
     this._extraRectangleDown.pos.Y = 144 + 18 + 38 * (this._maxItemsOnScreen + 1) + y;
     this._upAndDownSprite.pos.Y = 147 + 37 * (this._maxItemsOnScreen + 1) + y;
   }
 
-  private _recalculateDescriptionPosition(): void {
+  protected _recalculateDescriptionPosition(): void {
     let y = 149 + this._offset.Y;
 
     let count = this.items.length;
@@ -862,7 +862,7 @@ export class Menu {
     this._descriptionText.pos.Y = y + 6;
   }
 
-  private _calculateItemHeight(): number {
+  protected _calculateItemHeight(): number {
     const y = 149 + this._offset.Y;
 
     let count = this.items.length;
@@ -873,7 +873,7 @@ export class Menu {
     return y + 38 * count;
   }
 
-  private _calculatePanelPosition(hasDescription: boolean): number {
+  protected _calculatePanelPosition(hasDescription: boolean): number {
     let height = 0;
     if (hasDescription) {
       height += this._descriptionRectangle.size.height + 5;
@@ -881,7 +881,7 @@ export class Menu {
     return this._calculateItemHeight() + height;
   }
 
-  private _render(): void {
+  protected _render(): void {
     if (!this.visible || Game.IsPaused) {
       return;
     }
